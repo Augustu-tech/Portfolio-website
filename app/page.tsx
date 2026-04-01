@@ -35,7 +35,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-6 flex gap-4"
+          className="mt-6 flex flex-wrap justify-center gap-4"
         >
           <Link
             href="/projects"
@@ -50,6 +50,15 @@ export default function Home() {
           >
             Contact Me
           </Link>
+
+          {/* ✅ CV BUTTON */}
+          <a
+            href="/Augustus_Chiponde_CV.pdf"
+            download
+            className="border border-white px-6 py-2 rounded"
+          >
+            Download CV
+          </a>
         </motion.div>
 
       </section>
