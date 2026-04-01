@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 
-export default function ContactPage() {
+export default function Contact() {
   const [form, setForm] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -19,7 +20,8 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("loading");
+    setLoading(true);
+    setStatus("");
 
     try {
       const res = await fetch("/api/contact", {
@@ -30,28 +32,30 @@ export default function ContactPage() {
         body: JSON.stringify(form),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
-        setStatus("success");
+        setStatus("Message sent successfully!");
         setForm({ name: "", email: "", message: "" });
       } else {
-        setStatus("error");
+        setStatus(data.error || "Something went wrong");
       }
-    } catch {
-      setStatus("error");
+    } catch (error) {
+      setStatus("Failed to send message");
     }
+
+    setLoading(false);
   };
 
   return (
     <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-6">
-      <div className="w-full max-w-xl bg-slate-900 p-8 rounded-2xl shadow-lg border border-slate-800">
 
-        {/* HEADER */}
-        <h1 className="text-3xl font-bold mb-2">Contact Me</h1>
-        <p className="text-gray-400 mb-6">
-          Have a project, idea, or opportunity? Let’s talk.
-        </p>
+      <div className="w-full max-w-lg">
 
-        {/* FORM */}
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Contact Me
+        </h1>
+
         <form onSubmit={handleSubmit} className="space-y-4">
 
           <input
@@ -60,8 +64,8 @@ export default function ContactPage() {
             placeholder="Your Name"
             value={form.name}
             onChange={handleChange}
+            className="w-full p-3 rounded bg-slate-800"
             required
-            className="w-full p-3 bg-slate-800 rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
           />
 
           <input
@@ -70,8 +74,8 @@ export default function ContactPage() {
             placeholder="Your Email"
             value={form.email}
             onChange={handleChange}
+            className="w-full p-3 rounded bg-slate-800"
             required
-            className="w-full p-3 bg-slate-800 rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
           />
 
           <textarea
@@ -79,33 +83,27 @@ export default function ContactPage() {
             placeholder="Your Message"
             value={form.message}
             onChange={handleChange}
+            className="w-full p-3 rounded bg-slate-800"
+            rows={5}
             required
-            className="w-full p-3 bg-slate-800 rounded-lg border border-slate-700 h-32 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
           />
 
           <button
             type="submit"
-            disabled={status === "loading"}
-            className="w-full bg-green-500 hover:bg-green-600 transition px-5 py-3 rounded-lg font-semibold disabled:opacity-50"
+            disabled={loading}
+            className="w-full bg-green-500 px-6 py-2 rounded"
           >
-            {status === "loading" ? "Sending..." : "Send Message"}
+            {loading ? "Sending..." : "Send Message"}
           </button>
+
+          {status && (
+            <p className="mt-3 text-center text-gray-300">{status}</p>
+          )}
+
         </form>
 
-        {/* STATUS MESSAGES */}
-        {status === "success" && (
-          <p className="mt-4 text-green-400">
-            ✅ Message sent successfully!
-          </p>
-        )}
-
-        {status === "error" && (
-          <p className="mt-4 text-red-400">
-            ❌ Something went wrong. Try again.
-          </p>
-        )}
-
       </div>
+
     </main>
   );
 }
