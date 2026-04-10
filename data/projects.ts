@@ -27,4 +27,13 @@ export const projects: Project[] = [
         github: "#",
         demo: "#",
     },
+    {
+        id: 3,
+        slug: "file organizer",
+        title: "File Organizer",
+        description: "An automation file organizer to classify files and put them in their collect folders.",
+        tech: ["Python", "Tinkter"],
+        github: "#",
+        demo: "#",
+    },
 ];

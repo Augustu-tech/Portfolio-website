@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -10,53 +11,60 @@ export default function Contact() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState<null | "success" | "error">(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setStatus("");
+    setStatus(null);
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify(form),
       });
 
-      const data = await res.json();
-
       if (res.ok) {
-        setStatus("Message sent successfully!");
+        setStatus("success");
         setForm({ name: "", email: "", message: "" });
       } else {
-        setStatus(data.error || "Something went wrong");
+        setStatus("error");
       }
-    } catch (error) {
-      setStatus("Failed to send message");
+    } catch {
+      setStatus("error");
     }
 
     setLoading(false);
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-6">
+    <main className="min-h-screen flex items-center justify-center bg-slate-950 text-white px-6">
 
-      <div className="w-full max-w-lg">
+      {/* ✅ ANIMATION WRAPPER (THIS IS WHERE IT GOES) */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-lg"
+      >
 
         <h1 className="text-3xl font-bold mb-6 text-center">
           Contact Me
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-slate-800 p-6 rounded-xl shadow-lg space-y-4"
+        >
 
           <input
             type="text"
@@ -64,7 +72,7 @@ export default function Contact() {
             placeholder="Your Name"
             value={form.name}
             onChange={handleChange}
-            className="w-full p-3 rounded bg-slate-800"
+            className="w-full p-3 rounded bg-slate-700 outline-none focus:ring-2 focus:ring-green-500"
             required
           />
 
@@ -74,7 +82,7 @@ export default function Contact() {
             placeholder="Your Email"
             value={form.email}
             onChange={handleChange}
-            className="w-full p-3 rounded bg-slate-800"
+            className="w-full p-3 rounded bg-slate-700 outline-none focus:ring-2 focus:ring-green-500"
             required
           />
 
@@ -83,26 +91,35 @@ export default function Contact() {
             placeholder="Your Message"
             value={form.message}
             onChange={handleChange}
-            className="w-full p-3 rounded bg-slate-800"
-            rows={5}
+            className="w-full p-3 rounded bg-slate-700 outline-none focus:ring-2 focus:ring-green-500 h-32"
             required
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-500 px-6 py-2 rounded"
+            className="w-full bg-green-500 py-3 rounded font-semibold hover:bg-green-600 transition disabled:opacity-50"
           >
             {loading ? "Sending..." : "Send Message"}
           </button>
 
-          {status && (
-            <p className="mt-3 text-center text-gray-300">{status}</p>
+          {/* ✅ SUCCESS */}
+          {status === "success" && (
+            <p className="text-green-400 text-center">
+              Message sent successfully ✅
+            </p>
+          )}
+
+          {/* ❌ ERROR */}
+          {status === "error" && (
+            <p className="text-red-400 text-center">
+              Failed to send message ❌
+            </p>
           )}
 
         </form>
 
-      </div>
+      </motion.div>
 
     </main>
   );
