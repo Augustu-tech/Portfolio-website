@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { projects } from "@/data/projects";
 import Skills from "@/components/Skills";
+import GithubStats from "@/components/GithubStats";
 
 export default function Home() {
   return (
@@ -71,42 +72,43 @@ export default function Home() {
           Featured Projects
         </h2>
 
-       <div className="grid md:grid-cols-2 gap-6">
-  {projects.slice(0, 2).map((project) => (
-    <motion.div
-      key={project.id}
-      whileHover={{ scale: 1.05 }}
-      className="bg-slate-800 p-6 rounded-xl shadow-lg"
-    >
-      <h3 className="text-xl font-bold">{project.title}</h3>
+        <div className="grid md:grid-cols-2 gap-6">
+          {projects.slice(0, 2).map((project) => (
+            <motion.div
+              key={project.id}
+              whileHover={{ scale: 1.05 }}
+              className="bg-slate-800 p-6 rounded-xl shadow-lg"
+            >
+              <h3 className="text-xl font-bold">{project.title}</h3>
 
-      <p className="text-gray-400 mt-2 text-sm">
-        {project.description}
-      </p>
+              <p className="text-gray-400 mt-2 text-sm">
+                {project.description}
+              </p>
 
-      <div className="mt-3 flex flex-wrap gap-2">
-        {project.tech.map((t) => (
-          <span
-            key={t}
-            className="text-xs bg-slate-700 px-2 py-1 rounded"
-          >
-            {t}
-          </span>
-        ))}
-      </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {project.tech.map((t) => (
+                  <span
+                    key={t}
+                    className="text-xs bg-slate-700 px-2 py-1 rounded"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
 
-      <Link
-        href={`/projects/${project.slug}`}
-        className="text-green-400 mt-4 inline-block"
-      >
-        View Details →
-      </Link>
-    </motion.div>
-  ))}
-</div>
+              <Link
+                href={`/projects/${project.slug}`}
+                className="text-green-400 mt-4 inline-block"
+              >
+                View Details →
+              </Link>
+            </motion.div>
+          ))}
+        </div>
 
       </section>
-      <Skills/>
+      <Skills />
+      <GithubStats />
 
     </main>
   );

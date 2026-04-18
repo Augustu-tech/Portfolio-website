@@ -60,6 +60,9 @@ export default function Contact() {
         <h1 className="text-3xl font-bold mb-6 text-center">
           Contact Me
         </h1>
+        <p className="text-1xl mb-4 text-left font-times-new-roman">
+          Have a project idea? Talk to me. Even for business.
+        </p>
 
         <form
           onSubmit={handleSubmit}
@@ -69,7 +72,7 @@ export default function Contact() {
           <input
             type="text"
             name="name"
-            placeholder="Your Name"
+            placeholder="Name"
             value={form.name}
             onChange={handleChange}
             className="w-full p-3 rounded bg-slate-700 outline-none focus:ring-2 focus:ring-green-500"
@@ -79,7 +82,7 @@ export default function Contact() {
           <input
             type="email"
             name="email"
-            placeholder="Your Email"
+            placeholder="Email"
             value={form.email}
             onChange={handleChange}
             className="w-full p-3 rounded bg-slate-700 outline-none focus:ring-2 focus:ring-green-500"
@@ -88,7 +91,7 @@ export default function Contact() {
 
           <textarea
             name="message"
-            placeholder="Your Message"
+            placeholder="Message"
             value={form.message}
             onChange={handleChange}
             className="w-full p-3 rounded bg-slate-700 outline-none focus:ring-2 focus:ring-green-500 h-32"

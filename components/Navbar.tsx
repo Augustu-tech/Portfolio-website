@@ -1,40 +1,49 @@
-// app/components/Navbar.tsx
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { Home, User, Folder, Mail } from "lucide-react";
 
 export default function Navbar() {
-    const [menuOpen, setMenuOpen] = useState(false);
+    const pathname = usePathname();
+
+    const navLink = (href: string, label: string, icon: any) => {
+        const Icon = icon;
+
+        return (
+            <Link
+                href={href}
+                className={`flex items-center gap-1 transition ${pathname === href
+                        ? "text-green-400"
+                        : "text-gray-400 hover:text-white"
+                    }`}
+            >
+                <Icon size={16} />
+                {label}
+            </Link>
+        );
+    };
 
     return (
-        <nav className="bg-slate-900 p-4 flex justify-between items-center">
-            <div className="text-xl font-bold text-green-400">Augustus</div>
+        <nav className="fixed top-0 left-0 w-full bg-slate-900/70 backdrop-blur-lg border-b border-slate-800 z-50">
 
-            {/* Desktop Links */}
-            <div className="hidden md:flex gap-6">
-                <Link href="/">Home</Link>
-                <Link href="/about">About</Link>
-                <Link href="/projects">Projects</Link>
-                <Link href="/contact">Contact</Link>
+            <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+
+                {/* LOGO */}
+                <Link href="/" className="text-lg font-bold text-white tracking-wide">
+                    Augustus.dev
+                </Link>
+
+                {/* LINKS */}
+                <div className="flex gap-6 text-sm">
+                    {navLink("/", "Home", Home)}
+                    {navLink("/projects", "Projects", Folder)}
+                    {navLink("/about", "About", User)}
+                    {navLink("/contact", "Contact", Mail)}
+                </div>
+
             </div>
 
-            {/* Mobile Menu */}
-            <button
-                className="md:hidden text-white font-bold"
-                onClick={() => setMenuOpen(!menuOpen)}
-            >
-                {menuOpen ? "Close" : "Menu"}
-            </button>
-
-            {menuOpen && (
-                <div className="flex flex-col gap-4 mt-2 md:hidden bg-slate-800 p-4 rounded">
-                    <Link href="/">Home</Link>
-                    <Link href="/about">About</Link>
-                    <Link href="/projects">Projects</Link>
-                    <Link href="/contact">Contact</Link>
-                </div>
-            )}
         </nav>
     );
 }
