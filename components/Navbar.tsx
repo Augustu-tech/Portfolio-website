@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, User, Folder, Mail } from "lucide-react";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useState } from "react";
 
 export default function Navbar() {
     const pathname = usePathname();
+    const [isOpen, setIsOpen] = useState(false);
 
     const navLink = (href: string, label: string, icon: any) => {
         const Icon = icon;
@@ -13,10 +16,12 @@ export default function Navbar() {
         return (
             <Link
                 href={href}
-                className={`flex items-center gap-1 transition ${pathname === href
+                onClick={() => setIsOpen(false)} // ✅ auto-close
+                className={`flex items-center gap-1 transition ${
+                    pathname === href
                         ? "text-green-400"
                         : "text-gray-400 hover:text-white"
-                    }`}
+                }`}
             >
                 <Icon size={16} />
                 {label}
@@ -34,15 +39,33 @@ export default function Navbar() {
                     Augustus.dev
                 </Link>
 
-                {/* LINKS */}
-                <div className="flex gap-6 text-sm">
+                {/* DESKTOP LINKS */}
+                <div className="hidden md:flex gap-6 text-sm">
                     {navLink("/", "Home", Home)}
                     {navLink("/projects", "Projects", Folder)}
                     {navLink("/about", "About", User)}
                     {navLink("/contact", "Contact", Mail)}
                 </div>
 
+                {/* MOBILE BUTTON */}
+                <button
+                    className="md:hidden text-white text-xl"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    {isOpen ? <FaTimes /> : <FaBars />}
+                </button>
+
             </div>
+
+            {/* MOBILE MENU */}
+            {isOpen && (
+                <div className="md:hidden px-6 pb-4 flex flex-col gap-4 text-sm bg-slate-900 border-t border-slate-800">
+                    {navLink("/", "Home", Home)}
+                    {navLink("/projects", "Projects", Folder)}
+                    {navLink("/about", "About", User)}
+                    {navLink("/contact", "Contact", Mail)}
+                </div>
+            )}
 
         </nav>
     );
