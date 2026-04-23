@@ -1,5 +1,5 @@
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
 
 export const metadata = {
@@ -14,14 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-slate-950">
+      <body className="bg-slate-950 overflow-x-hidden">
 
-        <Navbar />
-
-        {/* IMPORTANT: padding top to avoid overlap */}
-        <div className="pt-20">
+        <NavbarWrapper>
           {children}
-        </div>
+        </NavbarWrapper>
 
         <Footer />
 

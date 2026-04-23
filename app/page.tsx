@@ -5,6 +5,8 @@ import Link from "next/link";
 import { projects } from "@/data/projects";
 import Skills from "@/components/Skills";
 import GithubStats from "@/components/GithubStats";
+import Hero from "@/components/Hero";
+
 
 export default function Home() {
   return (
@@ -13,58 +15,10 @@ export default function Home() {
       {/* HERO SECTION */}
       <section className="flex flex-col items-center text-center max-w-3xl mx-auto">
 
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl font-bold"
-        >
-          Hi, I'm <span className="text-green-400">Augustus</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="mt-4 text-gray-400"
-        >
-          Computer Science student specializing in AI systems and modern web development.
-          I build fast, scalable, and user-focused applications.
-        </motion.p>
-
-        {/* CTA BUTTONS */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-6 flex flex-wrap justify-center gap-4"
-        >
-          <Link
-            href="/projects"
-            className="bg-green-500 px-6 py-2 rounded"
-          >
-            View Projects
-          </Link>
-
-          <Link
-            href="/contact"
-            className="border border-green-500 px-6 py-2 rounded"
-          >
-            Contact Me
-          </Link>
-
-          {/* ✅ CV BUTTON */}
-          <a
-            href="/Augustus_Chiponde_CV.pdf"
-            download
-            className="border border-white px-6 py-2 rounded"
-          >
-            Download CV
-          </a>
-        </motion.div>
+    
 
       </section>
-
+      <Hero />
       {/* FEATURED PROJECTS */}
       <section className="mt-20 max-w-5xl mx-auto">
 
